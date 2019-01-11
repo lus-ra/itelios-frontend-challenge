@@ -144,26 +144,6 @@
                     "productInfo": {
                         "paymentConditions": "ou até 9x de R$ 1.277,78 sem juros"
                     }
-                },
-                {
-                    "businessId": "11514560",
-                    "name": "Apple Macbook Air 13 Core I5 1.6ghz 8gb 128gb Ssd - Mmgf2",
-                    "imageName": "images/apple-macbook-air-13-core-i5-16ghz-8gb-128gb-ssd-mmgf2-11514560.jpg",
-                    "price": "R$ 4.699,99",
-                    "oldPrice": null,
-                    "productInfo": {
-                        "paymentConditions": "ou até 9x de R$ 522,22 sem juros"
-                    }
-                },
-                {
-                    "businessId": "1765938",
-                    "name": "Mac Mini Apple MGEN2BZ/A com Intel® Core™ i5 Dual Core, 8GB, 1TB, Leitor de Cartões, HDMI, Wireless AC, Bluetooth 4.0 e OS X Yosemite",
-                    "imageName": "images/Mac-Mini-Apple-MGEN2BZ-A-com-Intel-Core-i5-Dual-Core-8GB-1TB-Leitor-de-Cartoes-HDMI-Wireless-AC-Bluetooth-4-0-e-OS-X-Yosemite-3865616.jpg",
-                    "price": "R$ 5.823,90",
-                    "oldPrice": null,
-                    "productInfo": {
-                        "paymentConditions": "ou até 8x de R$ 727,99 sem juros"
-                    }
                 }
             ]
         }
