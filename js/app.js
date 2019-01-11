@@ -19,9 +19,7 @@ Component = Object.createClass({
 		var args = Array.prototype.slice.call(arguments)
 		this.$ = this._getElement(this._parseData(args[0]) || args[0] || {})
 		Object.assign(this.$, this.constructor.prototype)
-		setTimeout(function () {
-			this.$.init.apply(this.$, args)
-		}.bind(this))
+		this.$.init.apply(this.$, args)
 		return this.$;
 	},
 	init: function () { },
@@ -120,19 +118,116 @@ Component.create = function (p_definitions, p_subClass) {
 		*/}),
 
 		init: function (p_data) {
+			this._didBulletChanged = this._didBulletChanged.bind(this)
+			this._invalidate = this._invalidate.bind(this)
 			this._data = p_data || []
 			this._items = []
 
 			this.viewItems = this.querySelector('.recommended-list__items')
 			this.viewItemsContainer = this.querySelector('.recommended-list__container')
+			this.viewItems.style.display = 'none'
 
 			var length = this._data.length
+			var width = 0
 			while (length--) {
 				item = this._data[length]
 				var product = new ProductCard(item)
 				this.viewItemsContainer.appendChild(product)
 			}
+
+			this.navBullets = new Bullets()
+			this.navBullets.addEventListener('changed', this._didBulletChanged)
+			this.viewItems.appendChild(this.navBullets)
+			this.navBullets.setTotal(Math.ceil(this._data.length/3))
+			
+			window.addEventListener('resize', this._invalidate)
+			setTimeout(this._invalidate);
 		},
+
+		_invalidate: function() {
+			var length = this._data.length
+			var width = 0
+			var index = this.navBullets.currentIndex;
+
+			this.viewItems.style.display = 'block'
+			while (length--) {
+				item = this.viewItemsContainer.children[length]
+				width += item.offsetWidth
+			}
+			this.viewItemsContainer.style.width = width + 'px'
+			this.navBullets.style.top = (this.viewItemsContainer.offsetHeight * 1.02) + 'px'
+
+			var maxWidth = Math.max(((-this.viewItems.offsetWidth+1) * index), (this.viewItems.offsetWidth - this.viewItemsContainer.offsetWidth))
+			this.viewItemsContainer.style.left = maxWidth + 'px'
+		},
+
+		_didBulletChanged: function(event) {
+			this._invalidate()
+		}
+	})
+
+	var Bullets = Component.create({
+		TEMPLATE: (function(){/*
+			<nav class='bullets'>
+				<ul></ul>
+			</nav>
+		*/}),
+		init: function(){
+			this.currentIndex = 0
+			this.list = this.querySelector('ul')
+			this.list.items = []
+			this._didItemClick = this._didItemClick.bind(this)
+		},
+		setIndex: function(p_index) {
+			p_index = p_index || 0;
+			item = this.list.items[p_index]
+			if(!!item){
+				var length = this.list.items.length
+				var item;
+				this.currentIndex = p_index;
+				while(length--) {
+					item = this.list.items[length]
+					item.classList.remove('selected')
+					if(item.index === this.currentIndex) {
+						item.classList.add('selected')
+					}
+				}
+				this.dispatchEvent(new CustomEvent('changed', {detail:this.currentIndex}))
+			}
+		},
+		setTotal: function(p_total){
+			this.total = p_total;
+			this._redraw()
+			this.setIndex(this.currentIndex)
+		},
+		_redraw: function(){
+			var length = this.total
+			var index = 0
+			this._clear()
+			while(length--) {
+				item = document.createElement('li')
+				button = document.createElement('a')
+				button.innerHTML = '&#x2B24'
+				button.href = 'javascript:void(0);';
+				item.index = button.index = index
+				button.addEventListener('click', this._didItemClick)
+				item.appendChild(button)
+				this.list.appendChild(item)
+				this.list.items.push(button)
+				index++;
+			}
+		},
+		_clear: function(){
+			this.list.items = this.list.items || []
+			while(this.list.children.length || 0) {
+				item = this.list.shift()
+				item.removeEventListener('click', this._didItemClick)
+			}
+			this.list.innerHTML = null
+		},
+		_didItemClick: function(event) {
+			this.setIndex(event.target.index)
+		}
 	})
 
 	var ShoppingHistory = Component.create({
