@@ -85,7 +85,10 @@ Component.create = function (p_definitions, p_subClass) {
 
 		_parseData: function (p_data) {
 			p_data = p_data || {}
-			p_data.name = p_data.name.slice(0, 100).split(' ').slice(0, -1).join(' ') + '...'
+			var maxChars = 90
+			if (p_data.name.length > maxChars) {
+				p_data.name = p_data.name.slice(0, maxChars).split(' ').slice(0, -1).join(' ') + '...'
+			}
 			if (p_data.productInfo && (conditions = p_data.productInfo.paymentConditions)) {
 				p_data.productInfo.paymentConditions = conditions.replace(/([\dx].+[\d])/gi, '<strong>$1</strong>');
 			}
