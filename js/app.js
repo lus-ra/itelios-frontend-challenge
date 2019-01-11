@@ -86,8 +86,8 @@ Component.create = function (p_definitions, p_subClass) {
 		_parseData: function (p_data) {
 			p_data = p_data || {}
 			var maxChars = 90
-			if (p_data.name.length > maxChars) {
-				p_data.name = p_data.name.slice(0, maxChars).split(' ').slice(0, -1).join(' ') + '...'
+			if (p_data.name.length > 90) {
+				p_data.name = p_data.name.slice(0, 90).split(' ').slice(0, -1).join(' ') + '...'
 			}
 			if (p_data.productInfo && (conditions = p_data.productInfo.paymentConditions)) {
 				p_data.productInfo.paymentConditions = conditions.replace(/([\dx].+[\d])/gi, '<strong>$1</strong>');
@@ -139,7 +139,7 @@ Component.create = function (p_definitions, p_subClass) {
 			}
 
 			this.navBullets = new Bullets()
-			this.navBullets.addEventListener('changed', this._didBulletChange)
+			this.navBullets.addEventListener('changed', this._didBulletChanged)
 			this.viewItems.appendChild(this.navBullets)
 			this.navBullets.setTotal(Math.ceil(this._data.length/3))
 			
@@ -160,11 +160,11 @@ Component.create = function (p_definitions, p_subClass) {
 			this.viewItemsContainer.style.width = width + 'px'
 			this.navBullets.style.top = (this.viewItemsContainer.offsetHeight * 1.02) + 'px'
 
-			var maxWidth = Math.max(((-this.viewItems.offsetWidth+1) * index), (this.viewItems.offsetWidth - this.viewItemsContainer.offsetWidth))
+			var maxWidth = Math.max(((-this.viewItems.offsetWidth+1) * index), Math.min(0, (this.viewItems.offsetWidth - this.viewItemsContainer.offsetWidth) + this._data.length-1))
 			this.viewItemsContainer.style.left = maxWidth + 'px'
 		},
 
-		_didBulletChange: function(event) {
+		_didBulletChanged: function(event) {
 			this._invalidate()
 		}
 	})

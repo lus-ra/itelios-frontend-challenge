@@ -100,7 +100,7 @@ main {
 		width: calc(95vw / 4);
 	}
 	.product-card .product-card__info {
-		font-size: .95em;
+		font-size: .90em;
 	}
 }
 
