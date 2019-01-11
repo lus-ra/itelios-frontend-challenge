@@ -139,7 +139,7 @@ Component.create = function (p_definitions, p_subClass) {
 			}
 
 			this.navBullets = new Bullets()
-			this.navBullets.addEventListener('changed', this._didBulletChanged)
+			this.navBullets.addEventListener('changed', this._didBulletChange)
 			this.viewItems.appendChild(this.navBullets)
 			this.navBullets.setTotal(Math.ceil(this._data.length/3))
 			
@@ -164,7 +164,7 @@ Component.create = function (p_definitions, p_subClass) {
 			this.viewItemsContainer.style.left = maxWidth + 'px'
 		},
 
-		_didBulletChanged: function(event) {
+		_didBulletChange: function(event) {
 			this._invalidate()
 		}
 	})
@@ -226,7 +226,7 @@ Component.create = function (p_definitions, p_subClass) {
 				item = this.list.shift()
 				item.removeEventListener('click', this._didItemClick)
 			}
-			this.list.innerHTML = null
+			this.list.innerHTML = ''
 		},
 		_didItemClick: function(event) {
 			this.setIndex(event.target.index)
