@@ -10,11 +10,11 @@ Desenvolvo interfaces ricas baseadas em componentes, nesse caso, criei algo com 
 Arvore de Componentes:
 
 - **Component (Core)** [ Component base para criação de novos. ]
-	- **ShoppingHistory** [ Histórica de compras ]
-		- **ProductCard** [ Produto Visto ]
-	- **RecommenedList** [ Carrosel de Produtos recomendados (3 por viewport do componente) ]
-		- **ProductCard[]** [ Lista-Inline horizontal de produtos ]
-		- **Bullets** [ Navegação de bullets atrelado ao carrosel que se atualiza dependendo da largura disponível do viewport do componente. ]
+- **ShoppingHistory** [ Histórica de compras ]
+	- **ProductCard** [ Produto Visto ]
+- **RecommenedList** [ Carrosel de Produtos recomendados (3 por viewport do componente) ]
+	- **ProductCard[]** [ Lista-Inline horizontal de produtos ]
+	- **Bullets** [ Navegação de bullets atrelado ao carrosel que se atualiza dependendo da largura disponível do viewport do componente. ]
 
 ##  Css
 
